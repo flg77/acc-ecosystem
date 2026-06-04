@@ -15,16 +15,38 @@ anyone can ship a pack.
 
 ## What's available
 
-This registry serves four canonical `@acc/*` **family packs** — 43
-movable roles extracted from `acc` core during the Stage 2
-role-ecosystem split:
+This registry serves the canonical `@acc/*` **role packs** — movable
+roles extracted from `acc` core during the Stage 2 role-ecosystem split.
+
+**Foundational families:**
 
 | Package | Roles | What's inside |
 |---|---|---|
 | [`@acc/workspace-roles`](packages/acc) | 8 | `coding_agent` + 5 variants (architect, dependency, implementer, reviewer, tester), `analyst`, `synthesizer` |
 | [`@acc/research-roles`](packages/acc) | 6 | `research_planner`, `research_critic`, `research_strategist`, `research_economist`, `research_competitor`, `research_synthesizer` |
-| [`@acc/business-roles`](packages/acc) | 25 | HR, sales, marketing, finance, legal, ops, IT, and support personas |
 | [`@acc/devops-roles`](packages/acc) | 4 | `data_engineer`, `devops_engineer`, `ml_engineer`, `security_analyst` |
+
+**Corporate domain packs** (the former `@acc/business-roles` monolith,
+now split so you install only the domains you need):
+
+| Package | Roles | What's inside |
+|---|---|---|
+| [`@acc/hr-roles`](packages/acc) | 3 | hr_business_partner, learning_development_specialist, recruiter |
+| [`@acc/finance-roles`](packages/acc) | 3 | financial_analyst, fpa_analyst, revenue_operations_analyst |
+| [`@acc/sales-roles`](packages/acc) | 6 | account_executive, sales_development_rep, sales_engineer, key_account_manager, inside_sales_rep, sales_operations_manager |
+| [`@acc/marketing-roles`](packages/acc) | 5 | content_marketer, demand_generation_specialist, marketing_analyst, product_marketer, brand_manager |
+| [`@acc/legal-roles`](packages/acc) | 2 | contract_analyst, risk_compliance_analyst |
+| [`@acc/support-roles`](packages/acc) | 3 | customer_success_manager, customer_support_agent, technical_support_specialist |
+| [`@acc/operations-roles`](packages/acc) | 7 | business_analyst, operations_analyst, procurement_specialist, project_manager, product_manager, it_operations_specialist, it_support_specialist |
+| [`@acc/business-roles`](packages/acc) `@2.0.0` | — | **Umbrella** — `depends_on` all seven corporate packs above; install one entry, get the whole suite. |
+
+> **Upgrading from the monolith?** The frozen `@acc/business-roles@1.0.x`
+> (25-role monolith) stays published, so existing `@acc/business-roles@^1.0`
+> pins keep resolving unchanged. Pin `@acc/business-roles@^2.0` (the
+> umbrella) to pull all seven domain packs via ACC's transitive resolver,
+> or pick individual `@acc/<domain>-roles` packs. Four roles are new in the
+> split: `key_account_manager`, `inside_sales_rep`, `sales_operations_manager`,
+> `brand_manager`.
 
 Each pack is a byte-deterministic `.accpkg` tarball carrying the role
 definitions, any bundled skills/MCPs, behavioral + safety evals, and
