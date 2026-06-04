@@ -153,6 +153,7 @@ in the core repo.
 | [`flg77/acc`](https://github.com/flg77/acc) | The ACC runtime, operator, TUI/WebGUI, and the `acc-pkg` toolchain that consumes this registry. |
 | [`flg77/acc-ecosystem`](https://github.com/flg77/acc-ecosystem) | **This repo** — the public `@acc/*` package registry. |
 | [`flg77/acc-podman-desktop`](https://github.com/flg77/acc-podman-desktop) | Podman Desktop extension — run, govern, and browse roles for an ACC collective from the desktop. |
+| [`flg77/acc-web-project`](https://github.com/flg77/acc-web-project) | The project website — its `/roles` marketplace surfaces packs from this registry. |
 
 ---
 
