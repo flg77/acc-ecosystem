@@ -1,0 +1,68 @@
+name: publish family packs
+
+# Auto-sign + publish on every tag of the form `v*.*.*`.  The packs
+# themselves are built upstream in the acc repo and uploaded by the
+# operator (or by a sibling workflow in acc that pushes here on tag).
+# This workflow's job is purely: cosign keyless sign + gh release.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to (re)release'
+        required: true
+
+permissions:
+  id-token: write   # Sigstore OIDC keyless
+  contents: write   # gh release create
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign each .accpkg
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for pkg in packages/acc/*.accpkg; do
+            echo "==> signing $pkg"
+            cosign sign-blob --yes \
+              --oidc-issuer https://token.actions.githubusercontent.com \
+              --output-signature "${pkg}.sig" \
+              --output-certificate "${pkg}.pem" \
+              "$pkg"
+          done
+
+      - name: Verify signatures round-trip
+        run: |
+          set -euo pipefail
+          for pkg in packages/acc/*.accpkg; do
+            cosign verify-blob \
+              --certificate "${pkg}.pem" \
+              --signature "${pkg}.sig" \
+              --certificate-identity-regexp ".*" \
+              --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+              "$pkg"
+          done
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          files: |
+            packages/acc/*.accpkg
+            packages/acc/*.accpkg.sig
+            packages/acc/*.accpkg.pem
+            packages/acc/*.accpkg.sha256
+            index.json
