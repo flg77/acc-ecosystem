@@ -25,7 +25,7 @@
     {
       "name": "@acc/finance-roles",
       "version": "1.0.0",
-      "tarball_sha256": "ab246170559629aefac9022b1e40b425f20f41e7334336e720c898ab6dadfd7c",
+      "tarball_sha256": "a362bfa13286e5fb5789f0f252ecc087d1f93c5ce57b795741bfccc5745975d7",
       "tarball_url": "/packages/acc/finance-roles-1.0.0.accpkg",
       "signature_url": "/packages/acc/finance-roles-1.0.0.accpkg.sig"
     },
@@ -67,7 +67,7 @@
     {
       "name": "@acc/sales-roles",
       "version": "1.0.0",
-      "tarball_sha256": "d11fc42d8ff26ac70e9a476b93f7f44376d6639ba1cf2f75ca950012f61a336a",
+      "tarball_sha256": "3ecefbfc7094f899aa857453a9cc02164f3240c8096a8026b8a9c49edc4e8ebf",
       "tarball_url": "/packages/acc/sales-roles-1.0.0.accpkg",
       "signature_url": "/packages/acc/sales-roles-1.0.0.accpkg.sig"
     },
