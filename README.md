@@ -15,21 +15,31 @@ anyone can ship a pack.
 
 ## What's available
 
-This registry serves four canonical `@acc/*` **family packs** — 43
-movable roles extracted from `acc` core during the Stage 2
-role-ecosystem split:
+This registry serves the canonical `@acc/*` **role packs** — the 43
+movable roles extracted from `acc` core during the Stage 2 role-ecosystem
+split. The live set is authoritative in [`index.json`](index.json):
 
 | Package | Roles | What's inside |
 |---|---|---|
 | [`@acc/workspace-roles`](packages/acc) | 8 | `coding_agent` + 5 variants (architect, dependency, implementer, reviewer, tester), `analyst`, `synthesizer` |
 | [`@acc/research-roles`](packages/acc) | 6 | `research_planner`, `research_critic`, `research_strategist`, `research_economist`, `research_competitor`, `research_synthesizer` |
-| [`@acc/business-roles`](packages/acc) | 25 | HR, sales, marketing, finance, legal, ops, IT, and support personas |
 | [`@acc/devops-roles`](packages/acc) | 4 | `data_engineer`, `devops_engineer`, `ml_engineer`, `security_analyst` |
+| [`@acc/business-roles`](packages/acc) | 25 | The frozen `1.0.x` corporate monolith (HR, sales, marketing, finance, legal, ops, IT, support) — kept so existing `^1.0` pins keep resolving |
 
-Each pack is a byte-deterministic `.accpkg` tarball carrying the role
-definitions, any bundled skills/MCPs, behavioral + safety evals, and
-optional Cat-A/B/C policy bounds. The current set of versions is listed
-in [`index.json`](index.json).
+**The corporate split.** The 25-role monolith is being replaced by
+**seven per-domain packs** plus an umbrella, built from the
+[spearhead](https://github.com/flg77/acc-ecosystem-spearhead) and rolling
+out to this registry:
+
+| Pack | Domain |
+|---|---|
+| `@acc/hr-roles` · `@acc/finance-roles` · `@acc/sales-roles` · `@acc/marketing-roles` · `@acc/legal-roles` · `@acc/support-roles` · `@acc/operations-roles` | One per knowledge domain — install only what you need |
+| `@acc/business-roles@2.0.0` | **Umbrella** meta-pack — `depends_on` all seven; one `required_packages` entry pulls the closure via ACC's transitive resolver |
+
+A vertical FSI agentset (`@acc/capital-markets-roles`, 13 roles) is also
+maintained in the spearhead. Each pack is a byte-deterministic `.accpkg`
+tarball carrying the role definitions, any bundled skills/MCPs,
+behavioral + safety evals, and optional Cat-A/B/C policy bounds.
 
 ---
 
@@ -83,6 +93,10 @@ non-negotiable. The `tier` (`trusted` / `community` / `self`) changes
 only the *depth* of policy applied on top (e.g. Stage 1 Enterprise
 Contract eval attestations for the trusted tier).
 
+> **Full lifecycle** (build → publish → deploy → infuse → verify, from the
+> CLI / TUI / WebGUI):
+> [`acc/docs/howto-build-deploy-infuse.md`](https://github.com/flg77/acc/blob/main/docs/howto-build-deploy-infuse.md).
+
 ---
 
 ## Create your own role pack
@@ -135,10 +149,27 @@ carries `name`, `version`, `tarball_sha256`, `tarball_url`, and
 
 * **v1.0.0** — bootstrap release, **unsigned**. Operators consuming it
   must pass `--allow-unsigned` (audit-logged).
-* **v1.0.2** — first **signed** release. Each `.accpkg` is signed with
-  keyless `cosign sign-blob` (Fulcio certificate + Rekor transparency
-  log) via the repo's GitHub Actions OIDC identity; signatures are
-  attached to the matching GitHub Release.
+* **v1.0.2** — **signed**. Each `.accpkg` on this Pages catalog carries a
+  matching `.accpkg.sig` (served alongside the tarball, referenced by
+  `signature_url` in [`index.json`](index.json)). Consume them with a
+  **keypair** `required_signer`:
+
+  ```yaml
+      required_signer:
+        issuer: "acc-ecosystem-keypair"      # audit label
+        subject_pattern: ".*"                 # ignored in keypair mode
+        key_path: /etc/acc/keys/acc-ecosystem.pub   # this repo's keys/acc-ecosystem.pub
+  ```
+
+  Verification needs the `cosign` binary on PATH (pin **cosign v2** —
+  v3 changed `verify-blob` tlog defaults). The public verifier key is
+  published at [`keys/acc-ecosystem.pub`](keys/acc-ecosystem.pub).
+
+  > **Rolling out:** the keyless-OIDC publish path (Fulcio + Rekor, no key
+  > custody) is being wired to deploy `.sig`/bundle to Pages — today the
+  > `publish-family-packs.yml` workflow signs keyless to GitHub Releases,
+  > while the Pages catalog is keypair-signed. The keypair config above is
+  > the supported consumer path until the keyless-to-Pages cutover lands.
 
 The publisher runbook for cutting a new family-pack release is
 [`docs/PUBLISHING-FAMILY-PACKS.md`](https://github.com/flg77/acc/blob/main/docs/PUBLISHING-FAMILY-PACKS.md)
