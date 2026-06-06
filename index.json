@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "packages": [
+    {
+      "name": "@acc/business-roles",
+      "version": "1.0.2",
+      "tarball_sha256": "f9de609771ceb4511d805967d0cd0d43ac683603df976571e089b42b5ea1d09f",
+      "tarball_url": "/packages/acc/business-roles-1.0.2.accpkg",
+      "signature_url": "/packages/acc/business-roles-1.0.2.accpkg.sig",
+      "bundle_url": "/packages/acc/business-roles-1.0.2.accpkg.bundle"
+    },
+    {
+      "name": "@acc/devops-roles",
+      "version": "1.0.2",
+      "tarball_sha256": "07327fdeac6d7004b71672120766aab042caab5230ee38e3b09e2b06d571cb3b",
+      "tarball_url": "/packages/acc/devops-roles-1.0.2.accpkg",
+      "signature_url": "/packages/acc/devops-roles-1.0.2.accpkg.sig",
+      "bundle_url": "/packages/acc/devops-roles-1.0.2.accpkg.bundle"
+    },
+    {
+      "name": "@acc/research-roles",
+      "version": "1.0.2",
+      "tarball_sha256": "ab365be59544842db8d76008c3df11fb599773934849b4b612b657378630fe02",
+      "tarball_url": "/packages/acc/research-roles-1.0.2.accpkg",
+      "signature_url": "/packages/acc/research-roles-1.0.2.accpkg.sig",
+      "bundle_url": "/packages/acc/research-roles-1.0.2.accpkg.bundle"
+    },
+    {
+      "name": "@acc/workspace-roles",
+      "version": "1.0.2",
+      "tarball_sha256": "9a2c381716760b1edfb73bc0f068f6bbdc313dfd075eccfdbeefa2e2e6f64392",
+      "tarball_url": "/packages/acc/workspace-roles-1.0.2.accpkg",
+      "signature_url": "/packages/acc/workspace-roles-1.0.2.accpkg.sig",
+      "bundle_url": "/packages/acc/workspace-roles-1.0.2.accpkg.bundle"
+    }
+  ]
+}
