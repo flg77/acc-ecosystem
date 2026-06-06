@@ -1,9 +1,27 @@
 name: publish family packs
 
 # Auto-sign + publish on every tag of the form `v*.*.*`.  The packs
-# themselves are built upstream in the acc repo and uploaded by the
-# operator (or by a sibling workflow in acc that pushes here on tag).
-# This workflow's job is purely: cosign keyless sign + gh release.
+# themselves are built upstream (in acc / acc-ecosystem-spearhead) and
+# committed under `packages/acc/`.  This workflow signs them BOTH ways and
+# publishes the result to GitHub Pages (the catalog `acc-canonical` reads
+# `https://flg77.github.io/acc-ecosystem`) AND to a GitHub Release.
+#
+# "Publish both" (operator decision 2026-06-05):
+#   * keypair  .sig    — cosign --key (verified against keys/acc-ecosystem.pub);
+#                        the pinned-key / air-gap path (D3).  index.json
+#                        advertises it as `signature_url`.
+#   * keyless  .bundle — cosign --bundle via GitHub Actions OIDC (Fulcio cert
+#                        + Rekor proof, no key custody).  index.json advertises
+#                        it as `bundle_url`.
+# A consumer's catalog `required_signer` mode picks which one it verifies.
+#
+# cosign is pinned to v2: acc/pkg/verify.py uses v2 `verify-blob` semantics
+# (`--key` doesn't query Rekor; air-gap adds `--insecure-ignore-tlog`).
+# cosign v3 changed the tlog defaults and would break that contract.
+#
+# Required repo secrets (operator-provisioned):
+#   COSIGN_PRIVATE_KEY  — the cosign keypair private key PEM
+#   COSIGN_PASSWORD     — its passphrase
 
 on:
   push:
@@ -16,8 +34,13 @@ on:
         required: true
 
 permissions:
-  id-token: write   # Sigstore OIDC keyless
-  contents: write   # gh release create
+  id-token: write   # Sigstore OIDC keyless (.bundle)
+  contents: write   # gh release create + push to gh-pages branch
+
+env:
+  COSIGN_RELEASE: 'v2.4.3'                                   # pin cosign v2
+  OIDC_ISSUER: https://token.actions.githubusercontent.com
+  IDENTITY_REGEXP: '^https://github\.com/flg77/acc-ecosystem/'
 
 jobs:
   publish:
@@ -28,33 +51,80 @@ jobs:
         with:
           ref: ${{ inputs.tag || github.ref_name }}
 
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Sign each .accpkg
+      - name: Install cosign (pinned v2)
+        uses: sigstore/cosign-installer@v3
+        with:
+          cosign-release: ${{ env.COSIGN_RELEASE }}
+
+      - name: Sign each .accpkg (keypair .sig + keyless .bundle)
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
           set -euo pipefail
           shopt -s nullglob
-          for pkg in packages/acc/*.accpkg; do
-            echo "==> signing $pkg"
+          packs=(packages/acc/*.accpkg)
+          if [ ${#packs[@]} -eq 0 ]; then
+            echo "::error::no packages found under packages/acc/" ; exit 1
+          fi
+          printf '%s\n' "$COSIGN_PRIVATE_KEY" > cosign.key
+          trap 'rm -f cosign.key' EXIT
+          for pkg in "${packs[@]}"; do
+            echo "==> keypair-signing $pkg"
             cosign sign-blob --yes \
-              --oidc-issuer https://token.actions.githubusercontent.com \
+              --key cosign.key \
               --output-signature "${pkg}.sig" \
+              "$pkg"
+            echo "==> keyless-signing $pkg (OIDC bundle)"
+            cosign sign-blob --yes \
+              --oidc-issuer "${OIDC_ISSUER}" \
               --output-certificate "${pkg}.pem" \
+              --bundle "${pkg}.bundle" \
               "$pkg"
           done
 
-      - name: Verify signatures round-trip
+      - name: Verify both signatures round-trip
         run: |
           set -euo pipefail
           for pkg in packages/acc/*.accpkg; do
+            echo "==> verify keypair $pkg"
             cosign verify-blob \
-              --certificate "${pkg}.pem" \
+              --key keys/acc-ecosystem.pub \
               --signature "${pkg}.sig" \
-              --certificate-identity-regexp ".*" \
-              --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+              "$pkg"
+            echo "==> verify keyless $pkg"
+            cosign verify-blob \
+              --bundle "${pkg}.bundle" \
+              --certificate-identity-regexp "${IDENTITY_REGEXP}" \
+              --certificate-oidc-issuer "${OIDC_ISSUER}" \
               "$pkg"
           done
+
+      - name: Regenerate index.json (signature_url + bundle_url)
+        run: python tools/gen_index.py
+
+      - name: Assemble the Pages site tree
+        run: |
+          set -euo pipefail
+          rm -rf public
+          mkdir -p public
+          cp index.json public/
+          cp -r packages public/packages
+          cp -r keys public/keys
+          touch public/.nojekyll
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          commit_message: "publish ${{ inputs.tag || github.ref_name }} (sig + bundle + index)"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -63,6 +133,8 @@ jobs:
           files: |
             packages/acc/*.accpkg
             packages/acc/*.accpkg.sig
+            packages/acc/*.accpkg.bundle
             packages/acc/*.accpkg.pem
             packages/acc/*.accpkg.sha256
+            keys/acc-ecosystem.pub
             index.json
