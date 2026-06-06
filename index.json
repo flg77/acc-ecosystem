@@ -10,6 +10,14 @@
       "bundle_url": "/packages/acc/business-roles-1.0.2.accpkg.bundle"
     },
     {
+      "name": "@acc/business-roles",
+      "version": "2.0.0",
+      "tarball_sha256": "c9473f31424095ff65516df0e8b1f7b8125d0a1334305b09bf2a3a1fbf6a1da6",
+      "tarball_url": "/packages/acc/business-roles-2.0.0.accpkg",
+      "signature_url": "/packages/acc/business-roles-2.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/business-roles-2.0.0.accpkg.bundle"
+    },
+    {
       "name": "@acc/devops-roles",
       "version": "1.0.2",
       "tarball_sha256": "07327fdeac6d7004b71672120766aab042caab5230ee38e3b09e2b06d571cb3b",
@@ -18,12 +26,68 @@
       "bundle_url": "/packages/acc/devops-roles-1.0.2.accpkg.bundle"
     },
     {
+      "name": "@acc/finance-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "a362bfa13286e5fb5789f0f252ecc087d1f93c5ce57b795741bfccc5745975d7",
+      "tarball_url": "/packages/acc/finance-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/finance-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/finance-roles-1.0.0.accpkg.bundle"
+    },
+    {
+      "name": "@acc/hr-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "51286530b97d2b9972aef02e27244fe94c6b8e49c8dda5769fd2a2edd2aac581",
+      "tarball_url": "/packages/acc/hr-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/hr-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/hr-roles-1.0.0.accpkg.bundle"
+    },
+    {
+      "name": "@acc/legal-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "eb29988a57306dc8c2f46e2987d305dc42a2a79ae884a638ff5d391df671a90d",
+      "tarball_url": "/packages/acc/legal-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/legal-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/legal-roles-1.0.0.accpkg.bundle"
+    },
+    {
+      "name": "@acc/marketing-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "86963976359b845632e79c59446b6aa988ebc47fe37e97b3c676bd859aa124b6",
+      "tarball_url": "/packages/acc/marketing-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/marketing-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/marketing-roles-1.0.0.accpkg.bundle"
+    },
+    {
+      "name": "@acc/operations-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "e535d7799026c495410444d34ed0e79a45c3029dade7637fab8e235583621831",
+      "tarball_url": "/packages/acc/operations-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/operations-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/operations-roles-1.0.0.accpkg.bundle"
+    },
+    {
       "name": "@acc/research-roles",
       "version": "1.0.2",
       "tarball_sha256": "ab365be59544842db8d76008c3df11fb599773934849b4b612b657378630fe02",
       "tarball_url": "/packages/acc/research-roles-1.0.2.accpkg",
       "signature_url": "/packages/acc/research-roles-1.0.2.accpkg.sig",
       "bundle_url": "/packages/acc/research-roles-1.0.2.accpkg.bundle"
+    },
+    {
+      "name": "@acc/sales-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "3ecefbfc7094f899aa857453a9cc02164f3240c8096a8026b8a9c49edc4e8ebf",
+      "tarball_url": "/packages/acc/sales-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/sales-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/sales-roles-1.0.0.accpkg.bundle"
+    },
+    {
+      "name": "@acc/support-roles",
+      "version": "1.0.0",
+      "tarball_sha256": "a21ba08aa413eeb0584b3cce479e775fa361cba697176e018ed77b64537932ee",
+      "tarball_url": "/packages/acc/support-roles-1.0.0.accpkg",
+      "signature_url": "/packages/acc/support-roles-1.0.0.accpkg.sig",
+      "bundle_url": "/packages/acc/support-roles-1.0.0.accpkg.bundle"
     },
     {
       "name": "@acc/workspace-roles",
