@@ -18,6 +18,14 @@
       "bundle_url": "/packages/acc/business-roles-2.0.0.accpkg.bundle"
     },
     {
+      "name": "@acc/capital-markets-roles",
+      "version": "0.1.0",
+      "tarball_sha256": "22d4da58dcafd751d8cb66c94e4fd839519fbaaf831bb0a1158b410acbf55a44",
+      "tarball_url": "/packages/acc/capital-markets-roles-0.1.0.accpkg",
+      "signature_url": "/packages/acc/capital-markets-roles-0.1.0.accpkg.sig",
+      "bundle_url": "/packages/acc/capital-markets-roles-0.1.0.accpkg.bundle"
+    },
+    {
       "name": "@acc/devops-roles",
       "version": "1.0.2",
       "tarball_sha256": "07327fdeac6d7004b71672120766aab042caab5230ee38e3b09e2b06d571cb3b",
