@@ -34,14 +34,6 @@
       "bundle_url": "/packages/acc/capital-markets-roles-0.1.1.accpkg.bundle"
     },
     {
-      "name": "@acc/capital-markets-roles",
-      "version": "0.1.2",
-      "tarball_sha256": "8bcc942ab20cbde5c9753abf2356bf4d6d5b116efdcfa5e45a123b53e5811f29",
-      "tarball_url": "/packages/acc/capital-markets-roles-0.1.2.accpkg",
-      "signature_url": "/packages/acc/capital-markets-roles-0.1.2.accpkg.sig",
-      "bundle_url": "/packages/acc/capital-markets-roles-0.1.2.accpkg.bundle"
-    },
-    {
       "name": "@acc/devops-roles",
       "version": "1.0.2",
       "tarball_sha256": "07327fdeac6d7004b71672120766aab042caab5230ee38e3b09e2b06d571cb3b",
