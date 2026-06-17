@@ -72,14 +72,27 @@ jobs:
           if [ ${#packs[@]} -eq 0 ]; then
             echo "::error::no packages found under packages/acc/" ; exit 1
           fi
-          printf '%s\n' "$COSIGN_PRIVATE_KEY" > cosign.key
-          trap 'rm -f cosign.key' EXIT
+          # Keypair signing is OPTIONAL: when COSIGN_PRIVATE_KEY is unset/empty
+          # (e.g. demo clusters without the signing key provisioned) we sign
+          # keyless-only via GitHub Actions OIDC.  A consumer catalog in keyless
+          # mode still verifies; only the .sig (pinned-key / air-gap path) is
+          # skipped.  Provision the secret to re-enable dual signing.
+          have_key=0
+          if [ -n "${COSIGN_PRIVATE_KEY:-}" ]; then
+            have_key=1
+            printf '%s\n' "$COSIGN_PRIVATE_KEY" > cosign.key
+            trap 'rm -f cosign.key' EXIT
+          else
+            echo "::warning::COSIGN_PRIVATE_KEY empty — keyless (.bundle) signing only, no keypair .sig"
+          fi
           for pkg in "${packs[@]}"; do
-            echo "==> keypair-signing $pkg"
-            cosign sign-blob --yes \
-              --key cosign.key \
-              --output-signature "${pkg}.sig" \
-              "$pkg"
+            if [ "$have_key" = 1 ]; then
+              echo "==> keypair-signing $pkg"
+              cosign sign-blob --yes \
+                --key cosign.key \
+                --output-signature "${pkg}.sig" \
+                "$pkg"
+            fi
             echo "==> keyless-signing $pkg (OIDC bundle)"
             cosign sign-blob --yes \
               --oidc-issuer "${OIDC_ISSUER}" \
@@ -92,11 +105,13 @@ jobs:
         run: |
           set -euo pipefail
           for pkg in packages/acc/*.accpkg; do
-            echo "==> verify keypair $pkg"
-            cosign verify-blob \
-              --key keys/acc-ecosystem.pub \
-              --signature "${pkg}.sig" \
-              "$pkg"
+            if [ -f "${pkg}.sig" ]; then
+              echo "==> verify keypair $pkg"
+              cosign verify-blob \
+                --key keys/acc-ecosystem.pub \
+                --signature "${pkg}.sig" \
+                "$pkg"
+            fi
             echo "==> verify keyless $pkg"
             cosign verify-blob \
               --bundle "${pkg}.bundle" \
