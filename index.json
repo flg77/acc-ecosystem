@@ -74,6 +74,14 @@
       "bundle_url": "/packages/acc/legal-roles-1.0.0.accpkg.bundle"
     },
     {
+      "name": "@acc/loan-origination-roles",
+      "version": "0.1.0",
+      "tarball_sha256": "7d58303fe037fb1df578ad30f5c8ff9282432c2978cd3344ec93f243a6083239",
+      "tarball_url": "/packages/acc/loan-origination-roles-0.1.0.accpkg",
+      "signature_url": "/packages/acc/loan-origination-roles-0.1.0.accpkg.sig",
+      "bundle_url": "/packages/acc/loan-origination-roles-0.1.0.accpkg.bundle"
+    },
+    {
       "name": "@acc/marketing-roles",
       "version": "1.0.0",
       "tarball_sha256": "86963976359b845632e79c59446b6aa988ebc47fe37e97b3c676bd859aa124b6",
