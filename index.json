@@ -27,6 +27,12 @@
       "tarball_url": "/packages/acc/capital-markets-roles-0.1.1.accpkg"
     },
     {
+      "name": "@acc/capital-markets-roles",
+      "version": "0.1.2",
+      "tarball_sha256": "8bcc942ab20cbde5c9753abf2356bf4d6d5b116efdcfa5e45a123b53e5811f29",
+      "tarball_url": "/packages/acc/capital-markets-roles-0.1.2.accpkg"
+    },
+    {
       "name": "@acc/devops-roles",
       "version": "1.0.2",
       "tarball_sha256": "07327fdeac6d7004b71672120766aab042caab5230ee38e3b09e2b06d571cb3b",
@@ -50,6 +56,12 @@
       "version": "1.0.0",
       "tarball_sha256": "eb29988a57306dc8c2f46e2987d305dc42a2a79ae884a638ff5d391df671a90d",
       "tarball_url": "/packages/acc/legal-roles-1.0.0.accpkg"
+    },
+    {
+      "name": "@acc/loan-origination-roles",
+      "version": "0.1.0",
+      "tarball_sha256": "7d58303fe037fb1df578ad30f5c8ff9282432c2978cd3344ec93f243a6083239",
+      "tarball_url": "/packages/acc/loan-origination-roles-0.1.0.accpkg"
     },
     {
       "name": "@acc/marketing-roles",
