@@ -89,6 +89,12 @@
       "tarball_url": "/packages/acc/sales-roles-1.0.0.accpkg"
     },
     {
+      "name": "@acc/supply-chain-roles",
+      "version": "0.1.0",
+      "tarball_sha256": "bca189dc8f12158d82f098ed5f8af51107f80682806ae71912597e6c51f517dd",
+      "tarball_url": "/packages/acc/supply-chain-roles-0.1.0.accpkg"
+    },
+    {
       "name": "@acc/support-roles",
       "version": "1.0.0",
       "tarball_sha256": "a21ba08aa413eeb0584b3cce479e775fa361cba697176e018ed77b64537932ee",
