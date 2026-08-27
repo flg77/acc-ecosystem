@@ -1,0 +1,10 @@
+{
+  "id": "acc-canonical",
+  "tier": "community",
+  "description": "ACC canonical family-pack catalog. Packs are signed by the acc-ecosystem publish workflow via GitHub Actions OIDC (keyless, Fulcio + Rekor), with a cosign keypair signature alongside for the pinned-key / air-gap path.",
+  "required_signer": {
+    "issuer": "https://token.actions.githubusercontent.com",
+    "subject_pattern": "^https://github\\.com/flg77/acc-ecosystem/",
+    "key_path": ""
+  }
+}
