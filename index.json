@@ -76,6 +76,12 @@
       "tarball_url": "/packages/acc/operations-roles-1.0.0.accpkg"
     },
     {
+      "name": "@acc/redhat-sre-roles",
+      "version": "0.1.0",
+      "tarball_sha256": "ef77d857e99857f5a1cf1dee9cc97031406d78df9efbf964332ba20ef689cfc4",
+      "tarball_url": "/packages/acc/redhat-sre-roles-0.1.0.accpkg"
+    },
+    {
       "name": "@acc/research-roles",
       "version": "1.0.2",
       "tarball_sha256": "ab365be59544842db8d76008c3df11fb599773934849b4b612b657378630fe02",
