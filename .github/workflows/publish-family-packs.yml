@@ -129,6 +129,11 @@ jobs:
           rm -rf public
           mkdir -p public
           cp index.json public/
+          # The catalog's self-description: acc.pkg.catalog
+          # .fetch_catalog_descriptor() reads <url>/catalog.json to
+          # discover our declared signer, and REFUSES to fall back to a
+          # default. Without this line `/catalog add <url>` 404s.
+          cp catalog.json public/
           cp -r packages public/packages
           cp -r keys public/keys
           touch public/.nojekyll
